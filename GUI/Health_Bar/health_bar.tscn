@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://lxp7ud0qjafw"]
+
+[ext_resource type="Texture2D" uid="uid://dpqbv4wpgdick" path="res://Assets/ProgressBar_07/BarV7_Bar.png" id="1_qqdbt"]
+[ext_resource type="Texture2D" uid="uid://crirmly27savk" path="res://Assets/ProgressBar_07/BarV7_ProgressBarBorder.png" id="2_cx25g"]
+[ext_resource type="Texture2D" uid="uid://6meo5dhjsl1v" path="res://Assets/ProgressBar_07/BarV7_ProgressBar.png" id="3_lvxd3"]
+[ext_resource type="FontFile" uid="uid://cplxyyxmc1soo" path="res://Assets/monogram/ttf/monogram-extended.ttf" id="4_ow73r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7mbb"]
+atlas = ExtResource("1_qqdbt")
+region = Rect2(0, 0, 271, 36)
+margin = Rect2(7.5, 9.5, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vno48"]
+atlas = ExtResource("2_cx25g")
+region = Rect2(0, 0, 280, 52.87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebcpw"]
+atlas = ExtResource("3_lvxd3")
+region = Rect2(0, 0, 266, 29)
+margin = Rect2(10.555, 12.405, 9.81, 14.42)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6aras"]
+font = ExtResource("4_ow73r")
+font_size = 31
+shadow_size = 0
+shadow_color = Color(0.529412, 0, 0, 0.6)
+shadow_offset = Vector2(3.21, 2.06)
+
+[node name="Health_Bar" type="TextureProgressBar"]
+texture_filter = 1
+offset_right = 283.0
+offset_bottom = 61.0
+value = 100.0
+texture_under = SubResource("AtlasTexture_a7mbb")
+texture_over = SubResource("AtlasTexture_vno48")
+texture_progress = SubResource("AtlasTexture_ebcpw")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 88.0
+offset_bottom = 37.0
+size_flags_horizontal = 4
+text = "Health"
+label_settings = SubResource("LabelSettings_6aras")
+horizontal_alignment = 1
+vertical_alignment = 1

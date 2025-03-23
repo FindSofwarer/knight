@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c03aoirf8fm6l"]
+
+[ext_resource type="Shader" path="res://Shaders/water.gdshader" id="1_s28yk"]
+[ext_resource type="Texture2D" uid="uid://dptjq6snmq6oo" path="res://Shaders/waveNoise.tres" id="2_dk0po"]
+
+[resource]
+shader = ExtResource("1_s28yk")
+shader_parameter/water_color = Color(0.145437, 0.183326, 0.445971, 1)
+shader_parameter/wave_noise = ExtResource("2_dk0po")

@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://br3dxt8d2p1q1"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_axs8y"]
+[ext_resource type="SpriteFrames" uid="uid://diuqc3iwfibs2" path="res://Animations/playerAnims.tres" id="1_fml0e"]
+[ext_resource type="PackedScene" uid="uid://cnhpxyxn382kg" path="res://GUI/gui.tscn" id="2_dwhxu"]
+[ext_resource type="Texture2D" uid="uid://blunwhr5t1ql6" path="res://Assets/light1.png" id="4_imbwx"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4spfb"]
+radius = 6.0
+height = 44.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ril20"]
+size = Vector2(38, 36)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("characterLight")]
+collision_layer = 2
+script = ExtResource("1_axs8y")
+max_health = 200
+characterLight = NodePath("CharacterLight")
+
+[node name="GUI" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_dwhxu")]
+player = NodePath("..")
+
+[node name="Player-Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_fml0e")
+animation = &"Pray"
+autoplay = "Idle"
+frame = 11
+frame_progress = 1.0
+
+[node name="Player-Shape" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 11)
+shape = SubResource("CapsuleShape2D_4spfb")
+debug_color = Color(1, 1, 1, 0.42)
+
+[node name="HitArea" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="HitShape" type="CollisionShape2D" parent="HitArea"]
+visible = false
+position = Vector2(30, 10)
+shape = SubResource("RectangleShape2D_ril20")
+debug_color = Color(1, 0.141176, 0.580392, 0.419608)
+
+[node name="CharacterLight" type="PointLight2D" parent="."]
+position = Vector2(-0.380001, 11.12)
+scale = Vector2(1.77418, 1.18824)
+color = Color(0.393001, 0.640859, 0.478316, 1)
+energy = 1.63
+shadow_enabled = true
+texture = ExtResource("4_imbwx")

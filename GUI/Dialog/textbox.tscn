@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://g7t40ss3f63h"]
+
+[ext_resource type="Script" path="res://Scripts/Dialog.gd" id="1_xfgq2"]
+[ext_resource type="Texture2D" uid="uid://db5nwd6agp8n6" path="res://Assets/UI_Elements01.png" id="2_17vio"]
+[ext_resource type="FontFile" uid="uid://cplxyyxmc1soo" path="res://Assets/monogram/ttf/monogram-extended.ttf" id="3_kr6vg"]
+
+[node name="Textbox" type="MarginContainer"]
+z_index = -1
+offset_right = 159.0
+offset_bottom = 37.0
+script = ExtResource("1_xfgq2")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_17vio")
+region_rect = Rect2(26, 190, 286, 59)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="MarginContainer"]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_kr6vg")
+text = "
+"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="LetterDisplayTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="LetterDisplayTimer" to="." method="_on_letter_display_timer_timeout"]

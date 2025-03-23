@@ -1,0 +1,135 @@
+[gd_scene load_steps=7 format=3 uid="uid://cnhpxyxn382kg"]
+
+[ext_resource type="Script" path="res://Scripts/gui.gd" id="1_6ypn2"]
+[ext_resource type="PackedScene" uid="uid://lxp7ud0qjafw" path="res://GUI/Health_Bar/health_bar.tscn" id="1_yhrl1"]
+[ext_resource type="FontFile" uid="uid://cplxyyxmc1soo" path="res://Assets/monogram/ttf/monogram-extended.ttf" id="2_tii66"]
+[ext_resource type="Script" path="res://Scripts/DisplayLabelOnTop.gd" id="4_4ntqn"]
+
+[sub_resource type="Shader" id="Shader_qhn5p"]
+code = "shader_type canvas_item;
+
+// SCREEN_TEXTURE'ü manuel olarak tanımlayın
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture;
+
+// Uniform değişkenler
+uniform float vignette_strength : hint_range(0.0, 1.0) = 0.2; // Çok hafif vignette
+uniform float contrast : hint_range(0.5, 2.0) = 1.0; // Kontrastı nötr hale getir
+uniform float grain_intensity : hint_range(0.0, 0.1) = 0.01; // Çok hafif gren
+uniform vec4 shadow_color = vec4(0.8, 0.8, 0.9, 1.0); // Çok açık bir gölge rengi
+
+// Gren (noise) fonksiyonu
+float random(vec2 uv) {
+    return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void fragment() {
+    // Orijinal renk
+    vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV);
+    
+    // Renkleri koyulaştır ve kontrast ekle
+    color.rgb = (color.rgb - 0.5) * contrast + 0.5;
+    color.rgb *= shadow_color.rgb; // Gölge rengini uygula
+    
+    // Vignette efekti
+    vec2 uv = SCREEN_UV;
+    float vignette = 1.0 - length(uv - 0.5) * vignette_strength;
+    vignette = smoothstep(0.0, 1.0, vignette);
+    color.rgb *= vignette;
+    
+    // Film greni (noise)
+    float noise = random(uv * TIME) * grain_intensity;
+    color.rgb += noise;
+    
+    COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lnbu5"]
+shader = SubResource("Shader_qhn5p")
+shader_parameter/vignette_strength = 0.845
+shader_parameter/contrast = 1.104
+shader_parameter/grain_intensity = 0.007
+shader_parameter/shadow_color = Vector4(0.8, 0.8, 0.9, 1)
+
+[node name="GUI" type="Control" node_paths=PackedStringArray("health_bar", "village_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ypn2")
+health_bar = NodePath("GUI_UI/HealtBar/Health_Bar")
+village_label = NodePath("GUI_UI/TopLabel/MarginContainer/TopLabel")
+
+[node name="Effect" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Effect"]
+z_index = 10
+material = SubResource("ShaderMaterial_lnbu5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+metadata/_edit_use_anchors_ = true
+
+[node name="GUI_UI" type="CanvasLayer" parent="."]
+
+[node name="HealtBar" type="Control" parent="GUI_UI"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 308.0
+grow_vertical = 0
+
+[node name="Health_Bar" parent="GUI_UI/HealtBar" instance=ExtResource("1_yhrl1")]
+z_index = 385
+texture_repeat = 1
+layout_mode = 1
+offset_left = 15.0
+offset_top = -28.0
+offset_right = 299.0
+offset_bottom = 22.0
+scale = Vector2(1.105, 1.105)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 77.0
+
+[node name="TopLabel" type="Control" parent="GUI_UI"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -481.0
+offset_right = 481.0
+offset_bottom = 114.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI_UI/TopLabel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -202.0
+offset_top = -41.0
+offset_right = 202.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLabel" type="RichTextLabel" parent="GUI_UI/TopLabel/MarginContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_tii66")
+theme_override_font_sizes/normal_font_size = 70
+text = "
+"
+fit_content = true
+autowrap_mode = 0
+script = ExtResource("4_4ntqn")
+display_duration = 3.0
+color_effect = Color(1, 0.352941, 0.4, 1)

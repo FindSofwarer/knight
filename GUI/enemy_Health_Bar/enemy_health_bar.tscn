@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3 uid="uid://cet1sumeecxji"]
+
+[ext_resource type="Texture2D" uid="uid://cv5fq2fkyd2us" path="res://Assets/bars/BorderBG.png" id="1_swncc"]
+[ext_resource type="Texture2D" uid="uid://c1otcfqbm7jyj" path="res://Assets/bars/Border.png" id="2_b0s4w"]
+[ext_resource type="Texture2D" uid="uid://cbbe356gtc6fj" path="res://Assets/bars/Colors.png" id="3_5jm2s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apppv"]
+atlas = ExtResource("1_swncc")
+region = Rect2(97, 228, 46.985, 3.45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdm32"]
+atlas = ExtResource("2_b0s4w")
+region = Rect2(97, 228.015, 46, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5qo4"]
+atlas = ExtResource("3_5jm2s")
+region = Rect2(96.95, 227.845, 52.185, 3.395)
+
+[node name="EnemyHealthBar" type="TextureProgressBar"]
+offset_right = 46.0
+offset_bottom = 4.0
+texture_under = SubResource("AtlasTexture_apppv")
+texture_over = SubResource("AtlasTexture_vdm32")
+texture_progress = SubResource("AtlasTexture_h5qo4")

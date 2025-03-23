@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://c71bv141naf1s"]
+
+[ext_resource type="Script" path="res://Scripts/villageLabelTetik.gd" id="1_giujt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_egh1w"]
+size = Vector2(582.5, 145)
+
+[node name="Village_Area" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_giujt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(413.75, -89.5)
+shape = SubResource("RectangleShape2D_egh1w")
+debug_color = Color(0.755169, 0.000168746, 0.669556, 0.42)
+
+[connection signal="body_entered" from="." to="." method="player_entered"]
+[connection signal="body_exited" from="." to="." method="player_exited"]

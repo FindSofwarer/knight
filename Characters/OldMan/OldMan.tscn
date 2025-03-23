@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://damlu6ahs27d5"]
+
+[ext_resource type="Texture2D" uid="uid://sw6aeusfr712" path="res://Assets/1 Old_man/Old_man_idle.png" id="1_7ih0c"]
+[ext_resource type="Script" path="res://Scripts/Villager.gd" id="1_bc2w5"]
+[ext_resource type="FontFile" uid="uid://cplxyyxmc1soo" path="res://Assets/monogram/ttf/monogram-extended.ttf" id="3_0ix7n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wqgk"]
+atlas = ExtResource("1_7ih0c")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuvfn"]
+atlas = ExtResource("1_7ih0c")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7w7fh"]
+atlas = ExtResource("1_7ih0c")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wfhr"]
+atlas = ExtResource("1_7ih0c")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fs4xf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wqgk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuvfn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7w7fh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wfhr")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 4.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b0yls"]
+radius = 15.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1teom"]
+size = Vector2(274, 84)
+
+[node name="OldMan" type="CharacterBody2D" node_paths=PackedStringArray("spriteMain") groups=["Citizen"]]
+collision_layer = 8
+script = ExtResource("1_bc2w5")
+spriteMain = NodePath("OldMan")
+sprite_X_Cevir = true
+lines = Array[String](["Hey! Seni daha önce buralarda görmedim!?", "Neden burdasın?", "Intikam almak icin guzel bir gun diyorsun :)", "Buradan dümdüz ilerle, sanirim aradigin yeri biliyorum...", "Ama yolda dikkatli olmalisin, umarim nedenini anlamazsin!"])
+
+[node name="OldMan" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.15, 1.15)
+sprite_frames = SubResource("SpriteFrames_fs4xf")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.901697
+
+[node name="OldManBody" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 17)
+shape = SubResource("CapsuleShape2D_b0yls")
+
+[node name="InteractionZone" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionZone"]
+visible = false
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_1teom")
+debug_color = Color(0, 0.631373, 0.447059, 0.156863)
+
+[node name="pressLabel" type="Label" parent="."]
+z_index = 2
+offset_left = -54.0
+offset_top = -38.0
+offset_right = 48.0
+offset_bottom = -22.0
+theme_override_fonts/font = ExtResource("3_0ix7n")
+text = "Press [E] To Talk"
+
+[connection signal="body_entered" from="InteractionZone" to="." method="body_entered"]
+[connection signal="body_exited" from="InteractionZone" to="." method="body_exited"]
